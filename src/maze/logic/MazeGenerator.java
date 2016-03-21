@@ -2,7 +2,6 @@ package maze.logic;
 
 import java.util.ArrayDeque;
 import java.util.Random;
-import java.util.Scanner;
 
 public class MazeGenerator {
 
@@ -16,6 +15,12 @@ public class MazeGenerator {
 	private int numDragons;
 
 	public MazeGenerator(int h,int w,int numDragons){
+		
+		if((h>31 && w>31) || (h<7 && w<7))
+			throw new IllegalArgumentException();
+		if(numDragons>4 || numDragons<1)
+			throw new IllegalArgumentException();
+		
 		this.x=rand.nextInt(w);
 		this.y=rand.nextInt(h);
 		width=w;

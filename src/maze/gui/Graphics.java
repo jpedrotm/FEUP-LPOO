@@ -89,11 +89,11 @@ public class Graphics {
 		
 		JComboBox dragonType = new JComboBox();
 		dragonType.setModel(new DefaultComboBoxModel(new String[] {"Static Dragon", "Random directioned Dragon", "Random directioned and sleepy Dragon"}));
-		dragonType.setBounds(178, 119, 201, 22);
+		dragonType.setBounds(178, 119, 248, 22);
 		frame.getContentPane().add(dragonType);
 		
 		JLabel Info = new JLabel("You can generate your maze.");
-		Info.setBounds(31, 454, 177, 22);
+		Info.setBounds(31, 454, 485, 22);
 		frame.getContentPane().add(Info);
 		
 		JTextArea mazeArea = new JTextArea();
@@ -103,6 +103,13 @@ public class Graphics {
 		mazeArea.setBounds(42, 171, 263, 266);
 		frame.getContentPane().add(mazeArea);
 		
+		JLabel mazeSizeRange = new JLabel("[7 , 31]");
+		mazeSizeRange.setBounds(283, 31, 56, 20);
+		frame.getContentPane().add(mazeSizeRange);
+		
+		JLabel numDragonsRange = new JLabel("[1 , 4]");
+		numDragonsRange.setBounds(283, 74, 56, 22);
+		frame.getContentPane().add(numDragonsRange);
 		
 		JButton btnUp = new JButton("UP");
 		btnUp.addActionListener(new ActionListener() {
@@ -148,19 +155,33 @@ public class Graphics {
 		btnDown.setBounds(396, 301, 75, 25);
 		frame.getContentPane().add(btnDown);
 		
+		
 		JButton btnNewButton = new JButton("Generate Maze");
 		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent arg0) {
 				
-				int size=Integer.parseInt(mazeSize.getText());
-				int nDragons=Integer.parseInt(numDragons.getText());
+				int size=11;
+				int nDragons=1;
 				
+				try
+				{
+					nDragons=Integer.parseInt(numDragons.getText());
+					size=Integer.parseInt(mazeSize.getText());
+				} catch(NumberFormatException e)	
+				{
+					Info.setText("Wrong type of arguments. Verify your arguments and generate your maze.");
+					return;
+				}
+				
+				try{
 				MazeGenerator mazeBuild=new MazeGenerator(size,size,nDragons);
 				mazeBuild.startMaze();
-				
 				maze=new Maze(mazeBuild.getMaze());
-				
-				System.out.println(dragonType.getSelectedIndex());
+				} catch(IllegalArgumentException e)
+				{
+					Info.setText("Arguments out of range, please choose other arguments.");
+					return;
+				}
 				
 				if(dragonType.getSelectedIndex()==0)
 					maze.setMode(0);//Static Dragon
@@ -187,7 +208,7 @@ public class Graphics {
 				
 			}
 		});
-		btnNewButton.setBounds(341, 30, 124, 25);
+		btnNewButton.setBounds(370, 30, 124, 25);
 		frame.getContentPane().add(btnNewButton);
 		
 		JButton btnEndGame = new JButton("End Game");
@@ -196,12 +217,13 @@ public class Graphics {
 				System.exit(0);
 			}
 		});
-		btnEndGame.setBounds(341, 73, 124, 25);
+		btnEndGame.setBounds(370, 73, 124, 25);
 		frame.getContentPane().add(btnEndGame);
 		
 		JTextArea textArea = new JTextArea();
 		textArea.setBounds(42, 171, 263, 266);
 		frame.getContentPane().add(textArea);
+		
 	}
 	
 	public void moveCaracters(char dir)
