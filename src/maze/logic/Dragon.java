@@ -26,17 +26,14 @@ public class Dragon {
 		return alive;
 	}
 	//SET'S-----------------------------
-	public void setSleep(){
-		if(sleep==false)
-			sleep=true;
-		else
-			sleep=false;
+	public void setSleep(boolean s){
+		sleep = s;
 	}
 	public void setDragonLife(){
 		alive=false;
 	}
 	//-----------------------------------
-	public void movimenta(char direcao){
+	public void move(char direcao){
 		if (direcao == 'a')
 			y--;
 		if (direcao == 's')
